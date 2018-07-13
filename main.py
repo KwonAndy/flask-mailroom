@@ -24,18 +24,11 @@ def add():
         
         donor_name = request.form['donor']
         donation = int(request.form['amount'])
-        # donation = float({0:.2f}.format(request.form['amount'])
 
-        # if database does not contain the added donor, saves the new donor
-        # if donor_name not in Donor.name:
-        #     Donor(name = donor_name).save()
+        # if database does not contain the added donor, saves the new donor to Donor db
+        Donor.get_or_create(name = donor_name)
 
-        try:
-            donor = Donor.get(Donor.name == donor_name)
-        except: 
-            donor = Donor(name = donor_name)
-            donor.save()
-
+        donor = Donor.get(Donor.name == donor_name)
         Donation(donor = donor, value = donation).save()
 
         return redirect(url_for('home'))
